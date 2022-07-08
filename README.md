@@ -1,2 +1,2 @@
-# Simple-Calculator
-make an on-screen calculator using JavaScript, HTML, and CSS
+# Landing-Page
+For this project i’ll be creating an entire web page from a design the odin project provides for me.
