@@ -24,11 +24,11 @@
 //         }
 //         gridContainer.appendChild(rowContainer);
 //     }
- 
-    
+
+
 //     let myStyle = `width: ${gridSize}px; height: ${gridSize}px;`;
 //     console.log(myStyle, typeof myStyle);
-    
+
 
 //     const gridElems = document.querySelectorAll(".gridElement");
 
@@ -60,45 +60,105 @@
 
 
 
-let add = (a, b) => a + b;
-let subtract = (a, b) => a - b;
-let multiply = (a, b) => a * b;
-let divide = (a, b) => a / b;
+let add = (a, b) => {
+    console.log(a, b, a+b);
+    return Number(a) + Number(b);
+}
+let subtract = (a, b) => Number(a) - Number(b);
+let multiply = (a, b) => Number(a) * Number(b);
+let divide = (a, b) => Number(a) / Number(b);
 
-let operate = function (operator, a,b) {
+let operate = function (operator, a, b) {
     return operator(a, b);
 }
 
+const digitBtns = document.querySelectorAll(".digit");
+const opeartionBtns = document.querySelectorAll(".operation")
 
 const clearBtn = document.querySelector("#clear");
 const display = document.querySelector("#display");
-const digitBtns = document.querySelectorAll(".digit");
+
+// const substractBtn = document.querySelector("#substract");
+// const multiplyBtn = document.querySelector("#multiply");
+const equalsBtn = document.querySelector("#equals");
+// const devideBtn = document.querySelector("#devide");
+// const addBtn = document.querySelector("#add");
 
 let displayValue = '';
-let opeartion = NaN;
+let operation = '';
+let firstVal = '';
+let ready = true;
 
-clearBtn.addEventListener('click', () => {
-    displayValue = '';
-    
-    display.textContent = displayValue;    
-});
+let refreshDisplay = () => display.textContent = displayValue;
 
-let addDigit = function (n) {
-    if (displayValue === '') {
-        displayValue = Number(n);
-    } else {
-        tmp = displayValue.split('');
-        tmp.push(n)
-        displayValue = tmp.join('');
-    }
+let disableOperations = function () {
+    operation = '';
+    opeartionBtns.forEach((operationBtn) => {
+        operationBtn.classList.remove("activeGridElement");
+    });
 }
 
 
 
+clearBtn.addEventListener('click', () => {
+    ready = true;
+    displayValue = '';
+    firstVal = '';
+    disableOperations();
+    refreshDisplay();
+});
+
+
+
+equalsBtn.addEventListener('click', () => {
+    if (displayValue != '' && firstVal != '' && operation != '' && ready == true) {
+        displayValue = operate(operation, firstVal, displayValue)
+        ready = false
+    }
+    refreshDisplay();
+    displayValue = '';
+ opeartion = '';
+firstVal = '';
+});
+
+let addDigitToDisplay = function (digit) {
+    let tempVal = displayValue.split('');
+    tempVal.push(digit);
+    displayValue = tempVal.join('');
+}
 
 digitBtns.forEach((digitBtn) => {
     digitBtn.addEventListener('click', (e) => {
-        display.textContent = e.target.textContent;
-        // e.target.classList.add("activeGridElement");
+        addDigitToDisplay(e.target.textContent);
+        // displayValue = e.target.textContent;
+        refreshDisplay();
     });
 });
+
+opeartionBtns.forEach((operationBtn) => {
+    operationBtn.addEventListener('click', (e) => {
+        if (displayValue != '' && operation == '') {
+            // disableOperations();
+            e.target.classList.add("activeGridElement");;
+            let operationTxt = e.target.textContent;
+            switch (operationTxt) {
+                case '+':
+                    operation = add;
+                    break;
+                case '-':
+                    operation = subtract;
+                    break;
+                case '*':
+                    operation = multiply;
+                    break;
+                case '/':
+                    operation = divide;
+                    break;
+            }
+            firstVal = displayValue;
+            displayValue = '';
+        }
+
+    });
+});
+

@@ -120,7 +120,8 @@ body {
 .activeGridElement {
     /* width: 14px;
     height: 14px; */
-    background-color: black;
+    color: #f9faf8;
+    background-color: #3882f6;
 }
 
 
@@ -206,7 +207,7 @@ button {
 #display {
     margin-top: 10px;
     border-radius: 8px;
-
+    font-family: 'Courier New', Courier, monospace;
     font-size: 19px;
     text-align: end ;
     color: #6d747d;
