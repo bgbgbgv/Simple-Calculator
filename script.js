@@ -58,7 +58,7 @@
 //     createGrid(size);
 // });
 
-let displayValue = '';
+
 
 let add = (a, b) => a + b;
 let subtract = (a, b) => a - b;
@@ -69,12 +69,36 @@ let operate = function (operator, a,b) {
     return operator(a, b);
 }
 
-console.log(operate(add,1,2));
 
 const clearBtn = document.querySelector("#clear");
+const display = document.querySelector("#display");
+const digitBtns = document.querySelectorAll(".digit");
+
+let displayValue = '';
+let opeartion = NaN;
+
 clearBtn.addEventListener('click', () => {
     displayValue = '';
-    let display = document.querySelector("#display");
-    display.textContent = displayValue;
     
+    display.textContent = displayValue;    
+});
+
+let addDigit = function (n) {
+    if (displayValue === '') {
+        displayValue = Number(n);
+    } else {
+        tmp = displayValue.split('');
+        tmp.push(n)
+        displayValue = tmp.join('');
+    }
+}
+
+
+
+
+digitBtns.forEach((digitBtn) => {
+    digitBtn.addEventListener('click', (e) => {
+        display.textContent = e.target.textContent;
+        // e.target.classList.add("activeGridElement");
+    });
 });
